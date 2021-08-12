@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\StoreApplicationRequest;
 use App\Models\Application;
 use Illuminate\Http\Request;
 
@@ -16,12 +17,21 @@ class ApplicationsController extends Controller
 
     public function create()
     {
-        
+        return view('dashboard');
     }
 
-    public function store(Request $request)
+    public function store(StoreApplicationRequest $request)
     {
-        //
+        $image_path = $request->attachment->storeAs('attachments', $request->attachment->getClientOriginalName());
+
+        auth()->user()->applications()->create(
+            array_merge($request->validated(), ['attachment_link' => $image_path])
+        );
+
+
+        //send email to manager
+
+        return redirect()->back();
     }
 
 
