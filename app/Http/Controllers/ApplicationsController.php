@@ -5,7 +5,9 @@ namespace App\Http\Controllers;
 use App\Http\Requests\StoreApplicationRequest;
 use App\Models\Application;
 use App\Models\User;
+use App\Notifications\NewApplicationNotification;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Notification;
 
 class ApplicationsController extends Controller
 {
@@ -25,14 +27,12 @@ class ApplicationsController extends Controller
     {
         abort_if(auth()->user()->applications()->today()->count() > 0, 403, 'you already posted an application today, come again tomorrow');
 
-        $image_path = $request->attachment->storeAs('attachments', $request->attachment->getClientOriginalName());
+        $image_path = $request->attachment->store('attachments');
 
-        auth()->user()->applications()->create(
-            array_merge($request->validated(), ['attachment_link' => $image_path])
-        );
+        $application = auth()->user()->applications()->create(array_merge($request->validated(), ['attachment_link' => $image_path]));
 
-
-        //send email to manager
+        $admin = User::whereIsManager(1)->get();
+        Notification::send($admin, new NewApplicationNotification($application));
 
         return redirect()->back()->with(['message' => 'Application sent successfully']);
     }
