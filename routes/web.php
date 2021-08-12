@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\ApplicationsController;
 use Illuminate\Support\Facades\Route;
 
 
@@ -11,10 +12,10 @@ Route::get('/dashboard', function () {
 
 Route::group(['middleware' => 'auth'], function () {
     Route::group(['prefix' => 'admin', 'as' => 'admin.', 'middleware' => 'IsManager'], function () {
-        Route::get('applications', function () {
-            return 'list of applications';
-        });
+        Route::resource('applications', ApplicationsController::class)->except('create', 'store');
     });
+
+    Route::resource('applications', ApplicationsController::class)->only('create', 'store');
 });
 
 require __DIR__ . '/auth.php';
