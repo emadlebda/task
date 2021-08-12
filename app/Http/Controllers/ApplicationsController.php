@@ -13,7 +13,7 @@ class ApplicationsController extends Controller
 {
     public function index()
     {
-        $applications = Application::with('user')->paginate(10);
+        $applications = Application::with('user')->whereIsAnswered(false)->paginate(10);
         return view('admin.applications.index', compact('applications'));
     }
 
@@ -59,5 +59,11 @@ class ApplicationsController extends Controller
     public function destroy(Application $application)
     {
         //
+    }
+
+    public function answer(Application $application)
+    {
+        $application->update(['is_answered' => true]);
+        return redirect()->route('admin.applications.index');
     }
 }

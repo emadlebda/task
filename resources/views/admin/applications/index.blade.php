@@ -75,11 +75,13 @@
                                                     {{$application->created_at->format('Y-m-d H:i:s')}}
                                                 </td>
                                                 <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
-                                                    <a href="{{route('admin.applications.show',$application)}}"
-                                                       class="text-indigo-600 hover:text-indigo-900">View</a>
+                                                    <a href="{{route('admin.applications.answer',$application)}}"
+                                                       class="text-indigo-600 hover:text-indigo-900">mark as
+                                                        answered</a>
                                                 </td>
                                                 <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
-                                                    <a href="#" class="text-indigo-600 hover:text-indigo-900">Edit</a>
+                                                    <a href="{{route('admin.applications.show',$application)}}"
+                                                       class="text-indigo-600 hover:text-indigo-900">View</a>
                                                 </td>
                                             </tr>
                                         @empty

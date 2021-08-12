@@ -14,6 +14,7 @@ class Application extends Model
         'message',
         'attachment_link',
         'user_id',
+        'is_answered'
     ];
 
     public function user()

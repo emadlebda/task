@@ -13,6 +13,7 @@ class CreateApplicationsTable extends Migration
             $table->string('subject');
             $table->text('message');
             $table->text('attachment_link');
+            $table->boolean('is_answered')->default(false);
             $table->foreignId('user_id')->constrained();
             $table->timestamps();
         });
