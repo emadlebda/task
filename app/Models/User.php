@@ -2,11 +2,10 @@
 
 namespace App\Models;
 
-use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
-use function Symfony\Component\Translation\t;
 
 class User extends Authenticatable
 {
@@ -29,12 +28,12 @@ class User extends Authenticatable
         'is_manager' => 'boolean'
     ];
 
-    public function isManager()
+    public function isManager(): bool
     {
         return $this->is_manager == true;
     }
 
-    public function applications()
+    public function applications(): HasMany
     {
         return $this->hasMany(Application::class);
     }

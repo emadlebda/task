@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class Application extends Model
 {
@@ -17,7 +18,11 @@ class Application extends Model
         'is_answered'
     ];
 
-    public function user()
+    protected $casts = [
+        'is_answered' => 'boolean'
+    ];
+
+    public function user(): BelongsTo
     {
         return $this->belongsTo(User::class);
     }
