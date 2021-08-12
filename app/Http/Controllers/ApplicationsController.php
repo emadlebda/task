@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\StoreApplicationRequest;
 use App\Models\Application;
+use App\Models\User;
 use Illuminate\Http\Request;
 
 class ApplicationsController extends Controller
@@ -22,6 +23,8 @@ class ApplicationsController extends Controller
 
     public function store(StoreApplicationRequest $request)
     {
+        abort_if(auth()->user()->applications()->today()->count() > 0, 403, 'you already posted an application today, come again tomorrow');
+
         $image_path = $request->attachment->storeAs('attachments', $request->attachment->getClientOriginalName());
 
         auth()->user()->applications()->create(
@@ -31,7 +34,7 @@ class ApplicationsController extends Controller
 
         //send email to manager
 
-        return redirect()->back();
+        return redirect()->back()->with(['message' => 'Application sent successfully']);
     }
 
 

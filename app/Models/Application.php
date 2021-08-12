@@ -20,4 +20,9 @@ class Application extends Model
     {
         return $this->belongsTo(User::class);
     }
+
+    public function scopeToday($builder)
+    {
+        return $builder->where('created_at', '>', today());
+    }
 }
